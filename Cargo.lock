@@ -306,6 +306,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "08f9b8508dccb7687a1d6c4ce66b2b0ecef467c94667de27d8d7fe1f8d2a9cdc"
 
 [[package]]
+name = "arc-swap"
+version = "1.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c5d78ce20460b82d3fa150275ed9d55e21064fc7951177baacf86a145c4a4b1f"
+
+[[package]]
 name = "askama_escape"
 version = "0.10.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -756,6 +762,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "indoc"
+version = "1.0.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "05a0bd019339e5d968b37855180087b7b9d512c5046fbd244cf8c95687927d6e"
+
+[[package]]
 name = "indoc-impl"
 version = "0.3.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1078,12 +1090,28 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "35100f9347670a566a67aa623369293703322bb9db77d99d7df7313b575ae0c8"
 dependencies = [
  "cfg-if",
- "indoc",
+ "indoc 0.3.6",
  "libc",
  "parking_lot 0.11.2",
  "paste 0.1.18",
- "pyo3-build-config",
- "pyo3-macros",
+ "pyo3-build-config 0.14.5",
+ "pyo3-macros 0.14.5",
+ "unindent",
+]
+
+[[package]]
+name = "pyo3"
+version = "0.16.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1e6302e85060011447471887705bb7838f14aba43fcb06957d823739a496b3dc"
+dependencies = [
+ "cfg-if",
+ "indoc 1.0.6",
+ "libc",
+ "parking_lot 0.12.0",
+ "pyo3-build-config 0.16.5",
+ "pyo3-ffi",
+ "pyo3-macros 0.16.5",
  "unindent",
 ]
 
@@ -1097,7 +1125,7 @@ dependencies = [
  "inventory",
  "once_cell",
  "pin-project-lite",
- "pyo3",
+ "pyo3 0.14.5",
  "pyo3-asyncio-macros",
  "tokio",
 ]
@@ -1123,12 +1151,55 @@ dependencies = [
 ]
 
 [[package]]
+name = "pyo3-build-config"
+version = "0.16.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b5b65b546c35d8a3b1b2f0ddbac7c6a569d759f357f2b9df884f5d6b719152c8"
+dependencies = [
+ "once_cell",
+ "target-lexicon",
+]
+
+[[package]]
+name = "pyo3-ffi"
+version = "0.16.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c275a07127c1aca33031a563e384ffdd485aee34ef131116fcd58e3430d1742b"
+dependencies = [
+ "libc",
+ "pyo3-build-config 0.16.5",
+]
+
+[[package]]
+name = "pyo3-log"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d84f1cb4bfeb767e1913b5e79fb86c1db083404296a650a7689a96371f7d30ea"
+dependencies = [
+ "arc-swap",
+ "log",
+ "pyo3 0.16.5",
+]
+
+[[package]]
 name = "pyo3-macros"
 version = "0.14.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fc0bc5215d704824dfddddc03f93cb572e1155c68b6761c37005e1c288808ea8"
 dependencies = [
- "pyo3-macros-backend",
+ "pyo3-macros-backend 0.14.5",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "pyo3-macros"
+version = "0.16.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "284fc4485bfbcc9850a6d661d627783f18d19c2ab55880b021671c4ba83e90f7"
+dependencies = [
+ "proc-macro2",
+ "pyo3-macros-backend 0.16.5",
  "quote",
  "syn",
 ]
@@ -1140,7 +1211,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "71623fc593224afaab918aa3afcaf86ed2f43d34f6afde7f3922608f253240df"
 dependencies = [
  "proc-macro2",
- "pyo3-build-config",
+ "pyo3-build-config 0.14.5",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "pyo3-macros-backend"
+version = "0.16.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "53bda0f58f73f5c5429693c96ed57f7abdb38fdfc28ae06da4101a257adb7faf"
+dependencies = [
+ "proc-macro2",
  "quote",
  "syn",
 ]
@@ -1224,8 +1306,9 @@ dependencies = [
  "futures",
  "futures-util",
  "matchit",
- "pyo3",
+ "pyo3 0.14.5",
  "pyo3-asyncio",
+ "pyo3-log",
  "serde",
  "serde_json",
  "socket2",
@@ -1347,6 +1430,12 @@ dependencies = [
  "quote",
  "unicode-xid",
 ]
+
+[[package]]
+name = "target-lexicon"
+version = "0.12.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c02424087780c9b71cc96799eaeddff35af2bc513278cda5c99fc1f5d026d3c1"
 
 [[package]]
 name = "time"

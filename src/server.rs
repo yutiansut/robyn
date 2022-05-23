@@ -24,6 +24,7 @@ use actix_web::*;
 use dashmap::DashMap;
 
 // pyO3 module
+use log::info;
 use pyo3::prelude::*;
 
 static STARTED: AtomicBool = AtomicBool::new(false);
@@ -68,11 +69,13 @@ impl Server {
         socket: &PyCell<SocketHeld>,
         workers: usize,
     ) -> PyResult<()> {
+        pyo3_log::init();
+
         if STARTED
             .compare_exchange(false, true, SeqCst, Relaxed)
             .is_err()
         {
-            println!("Already running...");
+            info!("Robyn is already running...");
             return Ok(());
         }
 
